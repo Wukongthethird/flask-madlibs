@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from flask_debugtoolbar import DebugToolbarExtension
 
 
-import stories 
+import stories
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "secret"
@@ -10,27 +10,28 @@ app.config['SECRET_KEY'] = "secret"
 debug = DebugToolbarExtension(app)
 
 
-#change to variable
+# change to variable
 @app.route("/")
 def menu():
     """Render dropdown menu for storytype"""
-    storytype = request.args.get("dropdown")
     return render_template("menu.html")
 
-@app.route("/questions/")
+
+@app.route("/questions")
 def question():
     """Render questions.html template and pass Story.prompts as an argument"""
 
-    storytype = request.args.get("dropdown")
-    story = stories.type_of_stories.get(storytype)
+    story_type = request.args["dropdown"]
+    story = stories.type_of_stories[story_type]
+
     return render_template("questions.html",
-                           prompts=story.prompts
+                           prompts=story.prompts, storytypes=story_type
                            )
 
 
-@app.route("/questions/results")
+@app.route("/results")
 def result():
     """Render story.html when the form is submitted, given a dictionary of prompts"""
-    storytype = request.args.get("dropdown")
-    story = stories.type_of_stories.get(storytype)
+
+    story = stories.type_of_stories[request.args["storytype"]]
     return render_template("story.html", story=story.generate(request.args))

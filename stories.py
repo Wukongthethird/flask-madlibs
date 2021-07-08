@@ -51,4 +51,4 @@ excited_story = Story(
     """OMG!! OMG!! I love to {verb} a {noun}!"""
 )
 
-type_of_stories = {"silly_story":silly_story, "excited_story":excited_story }
+type_of_stories = {"silly_story": silly_story, "excited_story": excited_story}
